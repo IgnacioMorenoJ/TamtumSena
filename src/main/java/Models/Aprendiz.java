@@ -2,7 +2,7 @@
 package Models;
 
 /**
- *  prueba git
+ *  prueba git - 2
  * @author usuario
  */
 public class Aprendiz extends Usuario {
