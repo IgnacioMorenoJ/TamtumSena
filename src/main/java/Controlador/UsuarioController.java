@@ -142,8 +142,8 @@ public class UsuarioController extends HttpServlet {
         }
         try {
             ud.registrar(u);
-            request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
-            //response.sendRedirect("usuarioController?accion=listar");
+            //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
+            response.sendRedirect("usuarioController?accion=listar");
             System.out.println("Usuario Registrado");
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo registrar el usuario controller" + e.getMessage());
