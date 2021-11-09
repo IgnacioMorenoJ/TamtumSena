@@ -1,0 +1,6 @@
+Models\Universidad.class
+Models\Usuario.class
+Models\Aprendiz.class
+Models\Conexion.class
+Models\Empresa.class
+Models\Prueba.class
