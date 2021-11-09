@@ -4,7 +4,7 @@ package Models;
 public class Aprendiz extends Usuario {
 
     private int identificacion;
-    private String nombre;
+    private String nombre;  //Sena 08-11-2021
     private String apellido;
     private int edad;
 
