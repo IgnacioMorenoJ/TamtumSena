@@ -28,32 +28,32 @@
         <tr>
         <td>${u.getId()}</td>
         <td>${u.getNombre()}</td>
-        <td>${u.getApellido()}</td>
+        <td>${u.getApellidos()}</td>
         <td>${u.getDocumento()}</td>
         <td>${u.getTelefono()}</td>
         <td>${u.getCorreo()}</td>
         <td>${u.getFechaDeNacimiento()}</td>
         <td>${u.getEstado()}</td>
         
-     	 <c:if test="${u.isEstado() == true}">
+     	 <c:if test="${u.getEstado() == true}">
            <td><span class="badge bg-success active">Usuario Activo</span></td> 
         </c:if>
-        <c:if test="${u.isEstado() == false}">
+        <c:if test="${u.getEstado() == false}">
             <td><span class="badge bg-danger active">Usuario Inactivo</span></td> 
         </c:if>
         
         <td>
-        <c:if test="${u.isEstado() == true}">
+        <c:if test="${u.getEstado() == true}">
            <a rol="button" 
            class="btn btn-danger btn-sm" 
-           onclick="cambiare(event,${u.getId()},${u.isEstado()},'Usuario')"> 
+           onclick="cambiare(event,${u.getId()},${u.getEstado()},'Usuario')"> 
         Inactivar
         </a>
         </c:if>
-        <c:if test="${u.isEstado() == false}">
+        <c:if test="${u.getEstado() == false}">
             <a rol="button" 
             class="btn btn-success btn-sm" 
-            onclick="cambiare(event,${u.getId()},${u.isEstado()},'Usuario')">
+            onclick="cambiare(event,${u.getId()},${u.getEstado()},'Usuario')">
         Activar
         </a>
         </c:if> 

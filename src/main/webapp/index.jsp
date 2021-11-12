@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>Hello Tamtumers</h1>
+        
+        <a href= "UsuarioController?accion=listar">Listado Usuarios</a>
+        
     </body>
 </html>

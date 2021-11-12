@@ -17,6 +17,8 @@ public class Usuario {
     private String entidad;
     private String ciudad;
 
+    public Usuario (){}
+    
     public Usuario(int id, String nombre, String apellidos, String foto, String documento, String correo, String fechaDeNacimiento, String telefono, String clave, Boolean estado, String idTipoDocumento, String idRol, String entidad, String ciudad) {
         this.id = id;
         this.nombre = nombre;
@@ -33,11 +35,7 @@ public class Usuario {
         this.entidad = entidad;
         this.ciudad = ciudad;
     }
-
-    public Usuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-   public int getId() {
+    public int getId() {
         return id;
     }
 
@@ -148,6 +146,6 @@ public class Usuario {
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
     }
-    
+      
     
 }

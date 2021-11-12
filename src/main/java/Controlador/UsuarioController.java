@@ -5,40 +5,49 @@ import Models.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class usuario
- */
+@WebServlet(name = "UsuarioController", urlPatterns = {"/UsuarioController"})
 public class UsuarioController extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    
 
     UsuarioDAO ud = new UsuarioDAO();
     Usuario u = new Usuario();
-
+   
     /**
-     * @see HttpServlet#HttpServlet()
+     * @see HttpServlet#HttpServlet() public UsuarioController() { super(); //
+     * TODO Auto-generated constructor stub }
+     *
+     * /**
+     *
      */
-    public UsuarioController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
     /**
-     * @param request
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        //response.getWriter().append("Served at: ").append(request.getContextPath());
-
-        String accion = request.getParameter("accion");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+           throws ServletException, IOException { String accion = request.getParameter("accion");
         try {
             if (accion != null) {
                 switch (accion) {
@@ -53,9 +62,9 @@ public class UsuarioController extends HttpServlet {
                         add(request, response);
                         break;
                     case "eliminar":
-                        Eliminar(request, response);
+                    /*    Eliminar(request, response);
                         break;
-                    /*case "ver":
+                    case "ver":
                     	ver(request,response);
                     	break;
                     case "edit":
@@ -82,9 +91,14 @@ public class UsuarioController extends HttpServlet {
 
     }
 
-    private void Eliminar(HttpServletRequest request, HttpServletResponse response) {
+   //protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-
+        //response.getWriter().append("Served at: ").append(request.getContextPath());
+    
+        processRequest(request, response);
+       
+    
     }
 
     /**
@@ -93,7 +107,7 @@ public class UsuarioController extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) {
@@ -101,7 +115,7 @@ public class UsuarioController extends HttpServlet {
         try {
             List usu = ud.listar();
             request.setAttribute("user", usu);
-            request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
+            request.getRequestDispatcher("Usuario.jsp").forward(request, response);
             System.out.println("Usuarios encontrados");
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo listar los usuarios" + e.getMessage());

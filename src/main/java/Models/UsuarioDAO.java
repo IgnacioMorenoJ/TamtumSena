@@ -21,7 +21,7 @@ public class UsuarioDAO {
     public List listar() throws Exception {
 
         List<Usuario> usu = new ArrayList<>();
-        sql = "SELECT id,Apellidos,Documento,Correo,Fecha_Nacimiento,Teléfono,Estado FROM usuarios ";
+        sql = "SELECT id,Nombres,Apellidos,Documento,Correo,Fecha_Nacimiento,Teléfono,Estado FROM usuarios ";
         //sql="SELECT Id, Nombres, Apellidos, Foto, Documento, Correo, Fecha_Nacimiento, Teléfono, Clave, Estado, IdTipoDocumento, IdRol, IdEntidad, IdCiudad FROM usuarios";
 
         try {
@@ -118,7 +118,7 @@ public class UsuarioDAO {
 
             }
         } catch (Exception e) {
-            System.out.println("Error en la consulta del usuario " + e.getMessage());
+            System.out.println("Error en la consulta del usuario del DAO Usuario " + e.getMessage());
         } finally {
             con.close();
         }

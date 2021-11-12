@@ -1,3 +1,9 @@
+<%@page session="true" %>
+<%
+response.setHeader("Pragma", "No-cache");
+//response.setHeader("Cache-control , "no-cache,no store, must-revalidate");
+%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

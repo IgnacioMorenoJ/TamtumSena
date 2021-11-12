@@ -1,6 +1,9 @@
 Models\Universidad.class
+Models\UsuarioDAO.class
 Models\Usuario.class
 Models\Aprendiz.class
+Controlador\ProyectoController.class
 Models\Conexion.class
 Models\Empresa.class
 Models\Prueba.class
+Controlador\UsuarioController.class
