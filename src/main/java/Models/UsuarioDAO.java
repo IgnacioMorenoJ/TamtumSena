@@ -54,16 +54,17 @@ public class UsuarioDAO {
     }
 
     public int registrar(Usuario us) throws SQLException {
-        sql = "INSERT INTO usuarios (documento, correo, fechaDeNacimiento, telefono, clave, estado) VALUES (?,?,?,?,?,?)";
+        sql = "INSERT INTO usuarios (nombres,apellidos,documento,correo,fechaDeNacimiento,telefono,clave) VALUES (?,?,?,?,?,?,?)";
         try {
             con = c.conectar();//abrir conexión
             ps = con.prepareStatement(sql); //preparación
-            ps.setString(1, us.getDocumento());
-            ps.setString(2, us.getCorreo());
-            ps.setString(3, us.getFechaDeNacimiento());
-            ps.setString(4, us.getTelefono());
-            ps.setString(5, us.getClave());
-            ps.setBoolean(6, us.getEstado());
+            ps.setString(1, us.getNombre());
+            ps.setString(2, us.getApellidos());
+            ps.setString(3, us.getDocumento());
+            ps.setString(4, us.getCorreo());
+            ps.setString(5, us.getFechaDeNacimiento());
+            ps.setString(6, us.getTelefono());
+            ps.setString(7, us.getClave());
             //ps.setInt(7, us.getRolUs().getIdRol());
 
             System.out.println(ps);

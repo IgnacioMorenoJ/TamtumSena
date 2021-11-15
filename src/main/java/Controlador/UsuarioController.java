@@ -91,11 +91,9 @@ public class UsuarioController extends HttpServlet {
 
     }
 
-   //protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        //response.getWriter().append("Served at: ").append(request.getContextPath());
-    
+           
         processRequest(request, response);
        
     
@@ -128,7 +126,7 @@ public class UsuarioController extends HttpServlet {
     private void abrirForm(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            request.getRequestDispatcher("views/usuario-add.jsp").forward(request, response);
+            request.getRequestDispatcher("usuario-add.jsp").forward(request, response);
             System.out.println("formulario abierto");
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo abrir el formulario" + e.getMessage());
@@ -141,27 +139,27 @@ public class UsuarioController extends HttpServlet {
     private void add(HttpServletRequest request, HttpServletResponse response) {
 
         if (request.getParameter("nombre") != null) {
-            u.setDocumento(request.getParameter("documento"));
-            u.setNombre(request.getParameter("nombre"));
             u.setApellidos(request.getParameter("apellido"));
+            u.setDocumento(request.getParameter("documento"));
             u.setCorreo(request.getParameter("correo"));
+            u.setFechaDeNacimiento(request.getParameter("Fecha de Nacimiento"));
             u.setTelefono(request.getParameter("telefono"));
             u.setClave(request.getParameter("clave"));
 
         }
-        if (request.getParameter("chkEstado") != null) {
+        /*if (request.getParameter("chkEstado") != null) {
             u.setEstado(true);
         } else {
             u.setEstado(false);
-        }
+        }*/
         try {
             ud.registrar(u);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
             response.sendRedirect("usuarioController?accion=listar");
             System.out.println("Usuario Registrado");
         } catch (Exception e) {
-            request.setAttribute("msje", "No se pudo registrar el usuario controller" + e.getMessage());
-            System.out.println("No se pudo registrar el usuario controller" + e.getMessage());
+            request.setAttribute("msje", "No se pudo registrar el usuario controller " + e.getMessage());
+            System.out.println("No se pudo registrar el usuario controller " + e.getMessage());
         } finally {
 
         }
@@ -193,7 +191,7 @@ public class UsuarioController extends HttpServlet {
             this.obtenerRoles(request);
             u = ud.consultaporId(id);
             request.setAttribute("user", u);
-            request.getRequestDispatcher("views/usuario-edit.jsp").forward(request, response);
+            request.getRequestDispatcher("usuario-edit.jsp").forward(request, response);
             System.out.println("Usuario encontrado " + id);
 
         } catch (Exception e) {
@@ -222,10 +220,10 @@ public class UsuarioController extends HttpServlet {
         }
         try {
             ud.actualizar(u);
-            response.sendRedirect("usuarioController?accion=listar");
+            response.sendRedirect("UsuarioController?accion=listar");
 
         } catch (Exception e) {
-            System.out.println("Rol NO actualizado " + e.getMessage());
+            System.out.println("Usuario NO actualizado " + e.getMessage());
         }
 
     }
