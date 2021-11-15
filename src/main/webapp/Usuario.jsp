@@ -17,7 +17,7 @@
             <th>Dirección</th>
             <th>Teléfono</th>
             <th>Correo</th>
-            <th>Rol Usuario </th>
+            <th>Fecha de Nacimiento</th>
             <th><center>Estado</center></th>            
             <th colspan="2"><center>Acciones</center></th>
        </tr>
