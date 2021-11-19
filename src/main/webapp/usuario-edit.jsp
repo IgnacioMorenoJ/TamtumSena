@@ -1,11 +1,11 @@
 <%@include file="header.jsp" %>
   <div class="flex-fill flex-grow-1 ms-3">
   
-  <h1>Ediatr  Usuarios</h1>
+  <h1>Editar  Roles</h1>
   
-  <form method="post" action="UsuarioController?accion=edit">
+  <form method="post" action="RolesController?accion=edit">
   	
-  	<input type="text" class="form-control" name="id" value="${user.idUsuario}"/>
+  	<input type="text" class="form-control" name="id" value="${user.id}"/>
   	<div class="form-group">
   	<label for="descripcion">Tipo Documento</label>
   	<select class="form-select" aria-label="Default select example" name="tipodoc">
@@ -72,15 +72,6 @@
                 </select>
             </div>                                  
                                 
-                                   
-  	
-  	<div class="form-check">
-  <input class="form-check-input" type="checkbox" name="chkEstado" id="chkEstado" checked>
-  <label class="form-check-label" for="flexCheckChecked">
-    Activo
-  </label>
-</div>
-
 <div>
 <button type="submit" class="btn btn-primary">Guardar</button>
 </div>
