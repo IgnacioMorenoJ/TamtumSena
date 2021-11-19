@@ -1,20 +1,13 @@
-<%-- 
-    Document   : index
-    Created on : 8/11/2021, 7:34:00 p. m.
-    Author     : usuario
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tamtum</title>
-    </head>
-    <body>
-        <h1>Hello Tamtumers</h1>
-        
-        <a href= "UsuarioController?accion=listar">Listado Usuarios</a>
-        
-    </body>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<title>Tamtum</title>
+</head>
+<body>
+<a class="btn btn-primary" href="RolesController?accion=listar" role="button">Roles</a>
+<a class="btn btn-success" href="UsuarioController?accion=listar" role="button">Usuarios</a>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script></body>
 </html>
