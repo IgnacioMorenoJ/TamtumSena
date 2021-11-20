@@ -2,8 +2,11 @@ package Controlador;
 
 import Models.Usuario;
 import Models.UsuarioDAO;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
@@ -61,8 +64,8 @@ public class UsuarioController extends HttpServlet {
                     case "add":
                         add(request, response);
                         break;
-                    case "eliminar":
-                    /*    Eliminar(request, response);
+                     /* case "eliminar":
+                      Eliminar(request, response);
                         break;
                     case "ver":
                     	ver(request,response);
@@ -137,12 +140,14 @@ public class UsuarioController extends HttpServlet {
     }
 
     private void add(HttpServletRequest request, HttpServletResponse response) {
-
+             
+        System.out.println("entro a la funcion add");
         if (request.getParameter("nombre") != null) {
+            u.setNombre(request.getParameter("nombre"));
             u.setApellidos(request.getParameter("apellido"));
             u.setDocumento(request.getParameter("documento"));
             u.setCorreo(request.getParameter("correo"));
-            u.setFechaDeNacimiento(request.getParameter("Fecha de Nacimiento"));
+            u.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechanacim")));
             u.setTelefono(request.getParameter("telefono"));
             u.setClave(request.getParameter("clave"));
 
@@ -152,10 +157,12 @@ public class UsuarioController extends HttpServlet {
         } else {
             u.setEstado(false);
         }*/
+         System.out.println(u.getApellidos());
+        System.out.println(u.getCorreo());
         try {
             ud.registrar(u);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
-            response.sendRedirect("usuarioController?accion=listar");
+            
             System.out.println("Usuario Registrado");
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo registrar el usuario controller " + e.getMessage());

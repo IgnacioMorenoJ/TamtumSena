@@ -111,12 +111,13 @@ public class RolesController extends HttpServlet {
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) {
-
+System.out.println("Prueba Rolcon");
         try {
-            List rol = rd.listar();
-            request.setAttribute("roler", rol);
+            List role = rd.listarRol();
+            request.setAttribute("roler", role);
             request.getRequestDispatcher("Roles.jsp").forward(request, response);
             System.out.println("Roles encontrados");
+            
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo listar los roles" + e.getMessage());
             System.out.println("No se pueden listar los roles Controller" + e.getMessage());

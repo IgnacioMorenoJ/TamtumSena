@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Date;
+
 public class Usuario {
 
     private int id;
@@ -8,7 +10,7 @@ public class Usuario {
     private String foto;
     private String documento;
     private String correo;
-    private String fechaDeNacimiento;
+    private Date fechaDeNacimiento;
     private String telefono;
     private String clave;
     private Boolean estado;
@@ -18,8 +20,8 @@ public class Usuario {
     private String ciudad;
 
     public Usuario (){}
-    
-    public Usuario(int id, String nombre, String apellidos, String foto, String documento, String correo, String fechaDeNacimiento, String telefono, String clave, Boolean estado, String idTipoDocumento, String idRol, String entidad, String ciudad) {
+
+    public Usuario(int id, String nombre, String apellidos, String foto, String documento, String correo, Date fechaDeNacimiento, String telefono, String clave, Boolean estado, String idTipoDocumento, String idRol, String entidad, String ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -35,6 +37,8 @@ public class Usuario {
         this.entidad = entidad;
         this.ciudad = ciudad;
     }
+    
+   
     public int getId() {
         return id;
     }
@@ -83,11 +87,11 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getFechaDeNacimiento() {
+    public Date getFechaDeNacimiento() {
         return fechaDeNacimiento;
     }
 
-    public void setFechaDeNacimiento(String fechaDeNacimiento) {
+    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
 

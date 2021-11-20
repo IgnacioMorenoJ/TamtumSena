@@ -19,10 +19,10 @@ public class RolesDAO {
 
     int r;
 
-    public List listar() throws Exception {
+    public List listarRol() throws Exception {
 
         List<Roles> rol = new ArrayList<>();
-        sql = "SELECT id, descripcion FROM roles";
+        sql = "SELECT Id, descripcion FROM roles";
        
         try {
             con = c.conectar();
@@ -33,14 +33,14 @@ public class RolesDAO {
             while (rs.next()) {
                 Roles r = new Roles();
               
-                r.setId(rs.getInt(1));
-                r.setDescripcion(rs.getString(2));
-                
+                r.setId(rs.getInt("id"));
+                r.setDescripcion(rs.getString("descripcion"));
+                rol.add(r);
             }
             ps.close(); 
             System.out.println("consulta exitosa");
         } catch (Exception e) {
-            System.out.println("No existen usuarios definidos" + e.getMessage());
+            System.out.println("No existen Roles definidos" + e.getMessage());
         } finally {
             con.close(); 
         }
@@ -48,7 +48,7 @@ public class RolesDAO {
     }
 
     public int registrar(Roles rl) throws SQLException {
-        sql = "INSERT INTO roles (id,descripcion) VALUES (?,?)";
+        sql = "INSERT INTO roles (descripcion) VALUES (?)";
         try {
             con = c.conectar();//abrir conexión
             ps = con.prepareStatement(sql); //preparación

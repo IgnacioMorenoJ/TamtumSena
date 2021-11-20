@@ -99,7 +99,7 @@ public class TemasInteresDAO {
 
             }
         } catch (Exception e) {
-            System.out.println("Error en la consulta del usuario del DAO Tema de Interes " + e.getMessage());
+            System.out.println("Error en la consulta del DAO Tema de Interes " + e.getMessage());
         } finally {
             con.close();
         }
