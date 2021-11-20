@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class UsuarioDAO {
                 u.setApellidos(rs.getString(3));
                 u.setDocumento(rs.getString(4));
                 u.setCorreo(rs.getString(5));
-                u.setFechaDeNacimiento(rs.getString(6));
+                u.setFechaDeNacimiento(rs.getDate(6));
                 u.setTelefono(rs.getString(7));
                 u.setEstado(rs.getBoolean(8));
                 usu.add(u);
@@ -54,7 +55,7 @@ public class UsuarioDAO {
     }
 
     public int registrar(Usuario us) throws SQLException {
-        sql = "INSERT INTO usuarios (nombres,apellidos,documento,correo,fechaDeNacimiento,telefono,clave) VALUES (?,?,?,?,?,?,?)";
+        sql = "INSERT INTO usuarios (nombres,apellidos,documento,correo,fechaDeNacimiento,telefono,Clave,Estado,IdTipoDocumento,IdRol,IdEntidad,IdCiudad) VALUES (?,?,?,?,?,?,?,1,1,1,1,1)";
         try {
             con = c.conectar();//abrir conexión
             ps = con.prepareStatement(sql); //preparación
@@ -62,7 +63,7 @@ public class UsuarioDAO {
             ps.setString(2, us.getApellidos());
             ps.setString(3, us.getDocumento());
             ps.setString(4, us.getCorreo());
-            ps.setString(5, us.getFechaDeNacimiento());
+            ps.setDate(5, (Date) us.getFechaDeNacimiento());
             ps.setString(6, us.getTelefono());
             ps.setString(7, us.getClave());
             //ps.setInt(7, us.getRolUs().getIdRol());
@@ -111,7 +112,7 @@ public class UsuarioDAO {
                 u.setNombre(rs.getString(3));
                 u.setApellidos(rs.getString(4));
                 u.setCorreo(rs.getString(5));
-                u.setFechaDeNacimiento(rs.getString(6));
+                u.setFechaDeNacimiento(rs.getDate(6));
                 u.setTelefono(rs.getString(7));
                 u.setClave(rs.getString(8));
                 u.setEstado(rs.getBoolean(9));
@@ -138,7 +139,7 @@ public class UsuarioDAO {
             ps.setString(2, us.getNombre());
             ps.setString(3, us.getApellidos());
             ps.setString(4, us.getCorreo());
-            ps.setString(5, us.getFechaDeNacimiento());
+            ps.setDate(5, (Date) us.getFechaDeNacimiento());
             ps.setString(6, us.getTelefono());
             ps.setString(7, us.getClave());
             ps.setBoolean(8, us.getEstado());
