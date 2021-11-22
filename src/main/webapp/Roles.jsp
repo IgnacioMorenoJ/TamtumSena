@@ -1,35 +1,81 @@
 <%@include file="header.jsp" %>
 
-<div class="flex-fill flex-grow-1 ms-3 overflow-hidden">
+<div class="flex-fill flex-grow-1 ms-3">
 
-    <h1>Roles</h1>
-    <a type="button" class="btn btn-success" href="RolesController?accion=abrirForm">
-        <i class="bi bi-plus-circle"></i> 
-        Agregar Rol
-    </a>
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered">
+  <h1>Lista de Roles</h1>
+  <a type="button" class="btn btn-primary" href="RolesController?accion=abrirForm">
+  <i class="bi bi-plus-circle"></i> 
+  Agregar Rol
+  </a>
 
-            <tr>
-                <th>Id</th>
-                <th>Descripcion</th>
+ <table class="table table-hover table-bordered">
+ 
+       <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th><center>Estado</center></th>            
+            <th colspan="2"><center>Acciones</center></th>
+        </tr>
+        
+<c:forEach var="rol" items="${roler}">         
+        
+        <tr>
+        <td>${rol.getId()}</td>
+        <td>${rol.getDescripcion()}</td>
+     	 <c:if test="${rol.getEstado() == true}">
+           <td><span class="badge bg-success active">Usuario Activo</span></td> 
+        
+          
+         </c:if>
+        <c:if test="${rol.getEstado() == false}">
+            <td><span class="badge bg-danger active">Usuario Inactivo</span></td> 
+        </c:if>
+        
+        <td>
+        <c:if test="${rol.getEstado() == true}">
+           <a rol="button" 
+           class="btn btn-danger btn-sm" 
+           onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Rol')"> 
+        
+           
+        Inactivar
+        </a>
+        </c:if>
+        <c:if test="${rol.getEstado() == false}">
+            <a rol="button" 
+            class="btn btn-success btn-sm" 
+            onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Rol')">
+        Activar
+        </a>
+        </c:if> 
+        </td>
+        
+        
+        <td>
+        <a rol="button" 
+        class="btn btn-warning" 
+        href="RolController?accion=verRol&id=${rol.getId()}">
+        <i class="bi bi-pencil"></i> 
+        </a>
 
-            </tr>
+	    <a rol="button" 
+	    class="btn btn-danger" 
+	    onclick="borrar(event,${rol.getId()},'Rol')">
+                
+	    <i class="bi bi-trash"></i> 
+	    </a>
+	    
+	    </td>
+        <tr> 
+        
+</c:forEach>    
 
-            <c:forEach var="r" items="${roler}">         
 
-                <tr>
-                    <td>${r.getId()}</td>
-                    <td>${r.getDescripcion()}</td>
+</table>
 
-                </tr>
-
-                </c:forEach>    
-
-        </table>
-    </div>
 
 </div> 
 </div>
+
 
 <%@include file="footer.jsp" %>

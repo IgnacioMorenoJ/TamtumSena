@@ -3,8 +3,13 @@ package Controlador;
 import Models.Usuario;
 import Models.UsuarioDAO;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -15,6 +20,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "UsuarioController", urlPatterns = {"/UsuarioController"})
 public class UsuarioController extends HttpServlet {
@@ -28,11 +35,9 @@ public class UsuarioController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-
     UsuarioDAO ud = new UsuarioDAO();
     Usuario u = new Usuario();
-   
+
     /**
      * @see HttpServlet#HttpServlet() public UsuarioController() { super(); //
      * TODO Auto-generated constructor stub }
@@ -50,21 +55,89 @@ public class UsuarioController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException { String accion = request.getParameter("accion");
+            throws ServletException, IOException {
+        String accion = request.getParameter("accion");
+
+        //Crear la sesión
+        HttpSession session = request.getSession();
         try {
             if (accion != null) {
                 switch (accion) {
+                    case "abrirLogin":
+                        abrirLogin(request, response);
+                        break;
+                    case "login":
+                        u.setCorreo(request.getParameter("correo"));
+                        u.setClave(request.getParameter("password"));
+                        try {
+                            u = ud.validarUsuario(u.getCorreo(), u.getClave());
+                            if (u.getApellidos() != null && u.getEstado()== true) {
+                                System.out.println("El DAO encontró el usuario y está activo");
+                                session.setAttribute("us", u);
+                                response.sendRedirect("UsuarioController?accion=listar");
+                            } else if (u.getApellidos() != null && u.getEstado() == false) {
+                                System.out.println("El DAO encontró el usuario y está inactivo");
+                                request.getRequestDispatcher("UsuarioController?accion=abrirLogin&msn=Usuario Inactivo consulte al administrador").forward(request, response);
+                            } else {
+                                System.out.println("El DAO NO encontró el usuario");
+                                request.getRequestDispatcher("UsuarioController?accion=abrirLogin&msn=Datos de acceso incorrecto").forward(request, response);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Error" + e.getMessage());
+                        }
+                        break;
+                    case "logout":
+                        session.removeAttribute("user");
+                        session.invalidate();
+                        request.getRequestDispatcher("UsuarioController?accion=abrirLogin&msn=Sesión Finalizada").forward(request, response);
 
+                        break;
+                    case "abrirchangepass":
+                        abrirchangepass(request, response);
+                        break;
+
+                    case "changePassword":
+                        changePassword(request, response);
+                        break;
+
+                    case "verPerfil":
+                        verPerfil(request, response);
+                        break;
+                                                	
                     case "listar":
                         listar(request, response);
                         break;
                     case "abrirForm":
-                        abrirForm(request, response);
-                        break;
+                    	abrirForm(request,response);
+                    	break;
                     case "add":
-                        add(request, response);
-                        break;
-                     /* case "eliminar":
+                    	add(request,response);
+                    	break;
+                    case "eliminar":
+                    	eliminar(request,response);
+                    	break;
+                    case "ver":
+                    	ver(request,response);
+                    break;
+                    case "edit":
+                    	edit(request,response);
+                    break;
+                        
+
+                      /*  try {
+                            if (accion != null) {
+                                switch (accion) {
+
+                                    case "listar":
+                                        listar(request, response);
+                                        break;
+                                    case "abrirForm":
+                                        abrirForm(request, response);
+                                        break;
+                                    case "add":
+                                        add(request, response);
+                                        break;
+                                    /* case "eliminar":
                       Eliminar(request, response);
                         break;
                     case "ver":
@@ -77,29 +150,26 @@ public class UsuarioController extends HttpServlet {
                     	changeEstado(request,response);
                     	break;*/
 
-                    default:
-                        response.sendRedirect("login.jsp");
+                                    default:
+                                        response.sendRedirect("login.jsp");
+                                }
+                            } else {
+                                response.sendRedirect("login.jsp");
+                            }
+                        } catch (Exception e) {
+                            try {
+                                request.getRequestDispatcher("/mensaje.jsp").forward(request, response);
+
+                            } catch (Exception ex) {
+                                System.out.println("Error" + e.getMessage());
+                            }
+                        }
+
                 }
-            } else {
-                response.sendRedirect("login.jsp");
-            }
-        } catch (Exception e) {
-            try {
-                request.getRequestDispatcher("/mensaje.jsp").forward(request, response);
-
-            } catch (Exception ex) {
-                System.out.println("Error" + e.getMessage());
-            }
-        }
-
-    }
-
-   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-           
+
         processRequest(request, response);
-       
-    
+
     }
 
     /**
@@ -109,6 +179,48 @@ public class UsuarioController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         processRequest(request, response);
+    }
+
+    private void abrirLogin(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            System.out.println("Login abierto");
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo abrir el login" + e.getMessage());
+            System.out.println("No se pudo abrir el login" + e.getMessage());
+        } finally {
+
+        }
+    }
+
+    private void abrirchangepass(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+
+            request.getRequestDispatcher("changePass.jsp").forward(request, response);
+            System.out.println("Cambio Password abierto");
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo abrir el Cambio Password" + e.getMessage());
+            System.out.println("No se pudo abrir el Cambio Password" + e.getMessage());
+        } finally {
+
+        }
+    }
+
+    private void verPerfil(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+
+            request.getRequestDispatcher("usuario-perfil.jsp").forward(request, response);
+            System.out.println("Perfil abierto");
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo abrir el perfil" + e.getMessage());
+            System.out.println("No se pudo abrir el perfil" + e.getMessage());
+        } finally {
+
+        }
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) {
@@ -140,14 +252,14 @@ public class UsuarioController extends HttpServlet {
     }
 
     private void add(HttpServletRequest request, HttpServletResponse response) {
-             
+
         System.out.println("entro a la funcion add");
         if (request.getParameter("nombre") != null) {
             u.setNombre(request.getParameter("nombre"));
             u.setApellidos(request.getParameter("apellido"));
             u.setDocumento(request.getParameter("documento"));
             u.setCorreo(request.getParameter("correo"));
-            u.setFechaDeNacimiento(Date.valueOf(request.getParameter("fechanacim")));
+            u.setFechaDeNacimiento(request.getParameter("fechanacim"));
             u.setTelefono(request.getParameter("telefono"));
             u.setClave(request.getParameter("clave"));
 
@@ -157,12 +269,12 @@ public class UsuarioController extends HttpServlet {
         } else {
             u.setEstado(false);
         }*/
-         System.out.println(u.getApellidos());
+        System.out.println(u.getApellidos());
         System.out.println(u.getCorreo());
         try {
             ud.registrar(u);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
-            
+
             System.out.println("Usuario Registrado");
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo registrar el usuario controller " + e.getMessage());
@@ -172,7 +284,7 @@ public class UsuarioController extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
+    private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 
         if (request.getParameter("id") != null) {
             u.setId(Integer.parseInt(request.getParameter("id")));
@@ -260,4 +372,54 @@ public class UsuarioController extends HttpServlet {
         }
     }
 
+    private void changePassword(HttpServletRequest request, HttpServletResponse response) {
+	
+	if(request.getParameter("id")!=null &&  request.getParameter("passnew")!=null) {
+		u.setId(Integer.parseInt(request.getParameter("id")));
+    	u.setClave(request.getParameter("passnew"));
+	}
+	try {
+		ud.changePassword(u);
+		response.sendRedirect("UsuarioController?accion=logout");
+		
+		
+	}catch(Exception e) {
+		System.out.println("Usuario NO actualizado "+e.getMessage());
+	}
+	
+}
+
+private String saveFile(Part part, File pathUploads) {
+	String pathAbsolute = "";
+	
+	try {
+		
+		Path path = Paths.get(part.getSubmittedFileName());
+		String fileName = path.getFileName().toString();
+		System.out.println(fileName);
+		InputStream input = part.getInputStream();
+		
+		if(input != null) {
+			File file = new File(pathUploads, fileName);
+			pathAbsolute = file.getAbsolutePath();
+			Files.copy(input, file.toPath());
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	return pathAbsolute;
+}
+
+private boolean isExtension(String fileName, String[] extensions) {
+	for(String et : extensions) {
+		if(fileName.toLowerCase().endsWith(et)) {
+			return true;
+		}
+	}
+	
+	return false;
+    
+}    
 }

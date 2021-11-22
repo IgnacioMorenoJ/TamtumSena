@@ -27,11 +27,9 @@ public class RolesController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-
     RolesDAO rd = new RolesDAO();
     Roles r = new Roles();
-   
+
     /**
      * @see HttpServlet#HttpServlet() public UsuarioController() { super(); //
      * TODO Auto-generated constructor stub }
@@ -49,7 +47,8 @@ public class RolesController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException { String accion = request.getParameter("accion");
+            throws ServletException, IOException {
+        String accion = request.getParameter("accion");
         try {
             if (accion != null) {
                 switch (accion) {
@@ -57,14 +56,14 @@ public class RolesController extends HttpServlet {
                     case "listar":
                         listar(request, response);
                         break;
-                      case "abrirForm":
+                    case "abrirForm":
                         abrirForm(request, response);
                         break;
-                    case "add":
+                    case "addRol":
                         add(request, response);
                         break;
-                    /*case "eliminar":
-                      Eliminar(request, response);
+                    case "eliminar":
+                        eliminar(request, response);
                         break;
                     case "ver":
                     	ver(request,response);
@@ -74,7 +73,7 @@ public class RolesController extends HttpServlet {
                     	break;
                     case "changeEstado":
                     	changeEstado(request,response);
-                    	break;*/
+                    	break;
 
                     default:
                         response.sendRedirect("login.jsp");
@@ -93,12 +92,10 @@ public class RolesController extends HttpServlet {
 
     }
 
-   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-           
+
         processRequest(request, response);
-       
-    
+
     }
 
     /**
@@ -111,13 +108,12 @@ public class RolesController extends HttpServlet {
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) {
-System.out.println("Prueba Rolcon");
         try {
-            List role = rd.listarRol();
-            request.setAttribute("roler", role);
+            List rol = rd.listar();
+            request.setAttribute("roler", rol);
             request.getRequestDispatcher("Roles.jsp").forward(request, response);
             System.out.println("Roles encontrados");
-            
+
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo listar los roles" + e.getMessage());
             System.out.println("No se pueden listar los roles Controller" + e.getMessage());
@@ -143,14 +139,12 @@ System.out.println("Prueba Rolcon");
 
         if (request.getParameter("id") != null) {
             r.setDescripcion(request.getParameter("descripcion"));
-           
-
         }
-        /*if (request.getParameter("chkEstado") != null) {
-            u.setEstado(true);
+        if (request.getParameter("chkEstado") != null) {
+            r.setEstado(true);
         } else {
-            u.setEstado(false);
-        }*/
+            r.setEstado(false);
+        }
         try {
             rd.registrar(r);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
@@ -164,7 +158,7 @@ System.out.println("Prueba Rolcon");
         }
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
+    private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 
         if (request.getParameter("id") != null) {
             r.setId(Integer.parseInt(request.getParameter("id")));
@@ -182,21 +176,55 @@ System.out.println("Prueba Rolcon");
         }
     }
 
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
+    private void ver(HttpServletRequest request, HttpServletResponse response) {
 
-        if (request.getParameter("id") != null ) {
-            r.setDescripcion(request.getParameter("descripcion"));
-              
+        RolesDAO rdao = new RolesDAO();
+        Roles r = new Roles();
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
         try {
-            rd.actualizar(r);
-            response.sendRedirect("RolesController?accion=listar");
+            r = rdao.consultaporId(id);
+            request.setAttribute("rol", r);
+            request.getRequestDispatcher("role-edit.jsp").forward(request, response);
+            System.out.println("Rol encontrado");
 
         } catch (Exception e) {
-            System.out.println("Rol NO actualizado " + e.getMessage());
+            System.out.println("Rol NO encontrado " + e.getMessage());
+        } finally {
+            rdao = null;
+        }
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+
+        if (request.getParameter("id") != null) {
+            r.setDescripcion(request.getParameter("descripcion"));
+
+            try {
+                rd.actualizar(r);
+                response.sendRedirect("RolesController?accion=listar");
+
+            } catch (Exception e) {
+                System.out.println("Rol NO actualizado " + e.getMessage());
+            }
+
         }
 
     }
-       
+
+    private void changeEstado(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            r.setId(Integer.parseInt(request.getParameter("id")));
+            r.setEstado(Boolean.parseBoolean(request.getParameter("es")));
+
+            rd.cambiarEstado(r);
+            response.sendRedirect("RolController?accion=listar");
+        } catch (Exception e) {
+            System.out.println("Estado NO actualizado " + e.getMessage());
+        }
     }
 
 }
+
+

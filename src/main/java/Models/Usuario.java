@@ -10,7 +10,7 @@ public class Usuario {
     private String foto;
     private String documento;
     private String correo;
-    private Date fechaDeNacimiento;
+    private String fechaDeNacimiento;
     private String telefono;
     private String clave;
     private Boolean estado;
@@ -21,7 +21,7 @@ public class Usuario {
 
     public Usuario (){}
 
-    public Usuario(int id, String nombre, String apellidos, String foto, String documento, String correo, Date fechaDeNacimiento, String telefono, String clave, Boolean estado, String idTipoDocumento, String idRol, String entidad, String ciudad) {
+    public Usuario(int id, String nombre, String apellidos, String foto, String documento, String correo, String fechaDeNacimiento, String telefono, String clave, Boolean estado, String idTipoDocumento, String idRol, String entidad, String ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -38,7 +38,6 @@ public class Usuario {
         this.ciudad = ciudad;
     }
     
-   
     public int getId() {
         return id;
     }
@@ -87,13 +86,14 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public Date getFechaDeNacimiento() {
+    public String getFechaDeNacimiento() {
         return fechaDeNacimiento;
     }
 
-    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+    public void setFechaDeNacimiento(String fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
+ 
 
     public String getTelefono() {
         return telefono;

@@ -19,10 +19,10 @@ public class RolesDAO {
 
     int r;
 
-    public List listarRol() throws Exception {
+    public List listar() throws Exception {
 
         List<Roles> rol = new ArrayList<>();
-        sql = "SELECT Id, descripcion FROM roles";
+        sql = "SELECT Id, Descripcion, Estado FROM roles";
        
         try {
             con = c.conectar();
@@ -35,6 +35,7 @@ public class RolesDAO {
               
                 r.setId(rs.getInt("id"));
                 r.setDescripcion(rs.getString("descripcion"));
+                r.setEstado(rs.getBoolean("estado"));
                 rol.add(r);
             }
             ps.close(); 
@@ -48,16 +49,19 @@ public class RolesDAO {
     }
 
     public int registrar(Roles rl) throws SQLException {
-        sql = "INSERT INTO roles (descripcion) VALUES (?)";
+       sql="INSERT INTO roles (descripcion,estado) VALUES (?,?)";
         try {
-            con = c.conectar();//abrir conexión
-            ps = con.prepareStatement(sql); //preparación
-                     
-            System.out.println(ps);
-            ps.executeUpdate();
-            ps.close();
-            System.out.println("Se registró un rol");
-
+           
+            con=c.conectar();//abrir conexión
+		ps=con.prepareStatement(sql); //preparación
+		ps.setString(1, rl.getDescripcion());
+		ps.setBoolean(2, rl.getEstado());
+		System.out.println(sql);
+		ps.executeUpdate();//Ejecucución sentencia
+		ps.close();//cerrar sentencia
+		System.out.println("Se registró un rol");
+            
+            
         } catch (Exception e) {
             System.out.println("Error en el registro del rol " + e.getMessage());
         } finally {
@@ -128,4 +132,27 @@ public class RolesDAO {
         return r;
     }
     
+    public int cambiarEstado(Roles rl) throws SQLException {
+		sql="UPDATE rolusuario SET estadoRolUsuario=? "+
+				"WHERE idRolUsuario="+rl.getId();
+		try {
+			
+			con=c.conectar();//abrir conexión
+			ps=con.prepareStatement(sql); //preparación
+			ps.setBoolean(1, rl.getEstado());
+			
+			System.out.println(sql);
+			ps.executeUpdate();//Ejecucución sentencia
+			ps.close();//cerrar sentencia
+			System.out.println("Se actualizó el estado del rol");
+		}catch(Exception e) {
+			System.out.println("Error en la actualización del estado rol "+e.getMessage());
+		}
+		finally {
+			con.close();
+		}
+		return r;
+    
+    
 }
+}   

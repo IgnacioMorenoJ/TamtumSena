@@ -2,19 +2,18 @@
 package Models;
 
 public class Roles {
-
-    static void add(String r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
 private int id;
 private String descripcion;
+private Boolean estado;
 
     public Roles(){}
-    public Roles(int id, String descripcion) {
+
+    public Roles(int id, String descripcion, Boolean estado) {
         this.id = id;
         this.descripcion = descripcion;
-      
+        this.estado = estado;
+        
     }
 
     public int getId() {
@@ -32,4 +31,13 @@ private String descripcion;
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
 }

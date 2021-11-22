@@ -77,7 +77,29 @@
         <tr>
         
 </c:forEach>    
+</tbody>
 
+</table>
+</div>
+
+</div> 
+</div>
+
+<script>
+
+var datat=document.querySelector("#datat"); 
+var dataTable=new DataTable("#datat",{ 
+	perPage:5,
+	labels: {
+	    placeholder: "Busca por un campo...",
+	    perPage: "{select} registros por página",
+	    noRows: "No se encontraron registros",
+	    info: "Mostrando {start} a {end} de {rows} registros",
+	}
+} ) ;
+
+
+</script>
 
 </table>
 </div>

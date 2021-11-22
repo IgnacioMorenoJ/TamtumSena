@@ -10,14 +10,45 @@ import java.util.List;
 
 public class UsuarioDAO {
 
-    Connection con; //objeto de conexiÃ³n
-    PreparedStatement ps; //objeto para sentencias preparadas
-    ResultSet rs; //objeto para almacenar consultas
-    String sql = null; //variable para guardar sentencias
+    Connection con; 
+    PreparedStatement ps; 
+    ResultSet rs; 
+    String sql = null; 
 
     Conexion c = new Conexion();
 
     int r;
+
+    public Usuario validarUsuario(String correo, String passw) throws SQLException {
+        Usuario u = new Usuario();
+        sql = "SELECT id,Nombres,Apellidos,Documento,Correo,Fecha_Nacimiento,Teléfono,Estado FROM usuarios ";
+        try {
+            con = c.conectar();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            ps.setString(2, passw);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                u.setId(rs.getInt(1));
+                u.setNombre(rs.getString(2));
+                u.setApellidos(rs.getString(3));
+                u.setDocumento(rs.getString(4));
+                u.setCorreo(rs.getString(5));
+                u.setFechaDeNacimiento(rs.getString(6));
+                u.setTelefono(rs.getString(7));
+                u.setEstado(rs.getBoolean(8));
+                System.out.println("Se encontró el usuario");
+
+            }
+        } catch (Exception e) {
+            System.out.println("Error en la consulta del usuario" + e.getMessage());
+        } finally {
+            con.close();
+        }
+
+        return u;
+    }
 
     public List listar() throws Exception {
 
@@ -39,7 +70,7 @@ public class UsuarioDAO {
                 u.setApellidos(rs.getString(3));
                 u.setDocumento(rs.getString(4));
                 u.setCorreo(rs.getString(5));
-                u.setFechaDeNacimiento(rs.getDate(6));
+                u.setFechaDeNacimiento(rs.getString(6));
                 u.setTelefono(rs.getString(7));
                 u.setEstado(rs.getBoolean(8));
                 usu.add(u);
@@ -63,7 +94,7 @@ public class UsuarioDAO {
             ps.setString(2, us.getApellidos());
             ps.setString(3, us.getDocumento());
             ps.setString(4, us.getCorreo());
-            ps.setDate(5, (Date) us.getFechaDeNacimiento());
+            ps.setString(5, us.getFechaDeNacimiento());
             ps.setString(6, us.getTelefono());
             ps.setString(7, us.getClave());
             //ps.setInt(7, us.getRolUs().getIdRol());
@@ -112,7 +143,7 @@ public class UsuarioDAO {
                 u.setNombre(rs.getString(3));
                 u.setApellidos(rs.getString(4));
                 u.setCorreo(rs.getString(5));
-                u.setFechaDeNacimiento(rs.getDate(6));
+                u.setFechaDeNacimiento(rs.getString(6));
                 u.setTelefono(rs.getString(7));
                 u.setClave(rs.getString(8));
                 u.setEstado(rs.getBoolean(9));
@@ -139,7 +170,7 @@ public class UsuarioDAO {
             ps.setString(2, us.getNombre());
             ps.setString(3, us.getApellidos());
             ps.setString(4, us.getCorreo());
-            ps.setDate(5, (Date) us.getFechaDeNacimiento());
+            ps.setString(4, us.getFechaDeNacimiento());
             ps.setString(6, us.getTelefono());
             ps.setString(7, us.getClave());
             ps.setBoolean(8, us.getEstado());
@@ -176,5 +207,29 @@ public class UsuarioDAO {
         }
         return r;
     }
+
+public int changePassword(Usuario us) throws SQLException {
+	sql="UPDATE usuario SET passwordUsuario=? "+
+			"WHERE idUsuario="+us.getId();
+	try {
+		
+		con=c.conectar();//abrir conexión
+		ps=con.prepareStatement(sql); //preparación
+		ps.setString(1, us.getClave());
+		
+		
+		System.out.println(ps);
+		ps.executeUpdate();//Ejecucución sentencia
+		ps.close();//cerrar sentencia
+		System.out.println("Se actualizó el password del usuario");
+	}catch(Exception e) {
+		System.out.println("Error en la actualización del password usuario "+e.getMessage());
+	}
+	finally {
+		con.close();
+	}
+	return r;
+}
+  
 
 }
