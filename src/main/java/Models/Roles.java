@@ -5,11 +5,11 @@ public class Roles {
     
 private int id;
 private String descripcion;
-private Boolean estado;
+private boolean estado;
 
     public Roles(){}
 
-    public Roles(int id, String descripcion, Boolean estado) {
+    public Roles(int id, String descripcion, boolean estado) {
         this.id = id;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -32,11 +32,11 @@ private Boolean estado;
         this.descripcion = descripcion;
     }
 
-    public Boolean getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(Boolean estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 

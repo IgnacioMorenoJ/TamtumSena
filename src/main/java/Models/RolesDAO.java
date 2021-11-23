@@ -22,7 +22,7 @@ public class RolesDAO {
     public List listar() throws Exception {
 
         List<Roles> rol = new ArrayList<>();
-        sql = "SELECT Id, Descripcion, Estado FROM roles";
+        sql = "SELECT id, descripcion, estado FROM roles";
        
         try {
             con = c.conectar();
@@ -48,15 +48,15 @@ public class RolesDAO {
         return rol;
     }
 
-    public int registrar(Roles rl) throws SQLException {
+    public int registrarRol (Roles rl) throws SQLException {
        sql="INSERT INTO roles (descripcion,estado) VALUES (?,?)";
         try {
-           
-            con=c.conectar();//abrir conexión
-		ps=con.prepareStatement(sql); //preparación
+                                       
+                con=c.conectar();//abrir conexión
+	        ps=con.prepareStatement(sql); //preparación
 		ps.setString(1, rl.getDescripcion());
 		ps.setBoolean(2, rl.getEstado());
-		System.out.println(sql);
+		System.out.println(ps);
 		ps.executeUpdate();//Ejecucución sentencia
 		ps.close();//cerrar sentencia
 		System.out.println("Se registró un rol");
@@ -111,14 +111,16 @@ public class RolesDAO {
         return r;
     }
 
-    public int actualizar(Roles rl) throws SQLException {
-        sql = "UPDATE roles SET ,descipcion=?," + "WHERE id=" + rl.getId();
+    public int actualizarRol(Roles  re) throws SQLException {
+        sql = "UPDATE roles SET descipcion=?,estado=? WHERE id=" + re.getId();
+        System.out.println("Prueba Update");
+               
         try {
 
             con = c.conectar();
             ps = con.prepareStatement(sql); 
-            ps.setString(1, rl.getDescripcion());
-            
+            ps.setString(1, re.getDescripcion());
+            ps.setBoolean(2, re.getEstado());
 
             System.out.println(ps);
             ps.executeUpdate();
@@ -133,8 +135,7 @@ public class RolesDAO {
     }
     
     public int cambiarEstado(Roles rl) throws SQLException {
-		sql="UPDATE rolusuario SET estadoRolUsuario=? "+
-				"WHERE idRolUsuario="+rl.getId();
+		sql="UPDATE roles SET estado =?  WHERE id="+rl.getId();
 		try {
 			
 			con=c.conectar();//abrir conexión

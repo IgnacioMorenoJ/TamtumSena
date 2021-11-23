@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "RolesController", urlPatterns = {"/RolesController"})
 public class RolesController extends HttpServlet {
-
+public RolesController (){super();}
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,20 +60,20 @@ public class RolesController extends HttpServlet {
                         abrirForm(request, response);
                         break;
                     case "addRol":
-                        add(request, response);
+                        addRol(request, response);
                         break;
                     case "eliminar":
                         eliminar(request, response);
                         break;
-                    case "ver":
-                    	ver(request,response);
-                    	break;
-                    case "edit":
-                    	edit(request,response);
-                    	break;
+                    case "verRol":
+                        verRol(request, response);
+                        break;
+                    case "editRol":
+                        editRol(request, response);
+                        break;
                     case "changeEstado":
-                    	changeEstado(request,response);
-                    	break;
+                        changeEstado(request, response);
+                        break;
 
                     default:
                         response.sendRedirect("login.jsp");
@@ -135,10 +135,10 @@ public class RolesController extends HttpServlet {
         }
     }
 
-    private void add(HttpServletRequest request, HttpServletResponse response) {
+    private void addRol(HttpServletRequest request, HttpServletResponse response) {
 
-        if (request.getParameter("id") != null) {
-            r.setDescripcion(request.getParameter("descripcion"));
+        if (request.getParameter("nombre") != null) {
+            r.setDescripcion(request.getParameter("nombre"));
         }
         if (request.getParameter("chkEstado") != null) {
             r.setEstado(true);
@@ -146,7 +146,7 @@ public class RolesController extends HttpServlet {
             r.setEstado(false);
         }
         try {
-            rd.registrar(r);
+            rd.registrarRol(r);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
             response.sendRedirect("RolesController?accion=listar");
             System.out.println("Rol Registrado");
@@ -176,55 +176,58 @@ public class RolesController extends HttpServlet {
         }
     }
 
-    private void ver(HttpServletRequest request, HttpServletResponse response) {
+    private void verRol(HttpServletRequest request, HttpServletResponse response) {
 
-        RolesDAO rdao = new RolesDAO();
+        RolesDAO rd = new RolesDAO();
         Roles r = new Roles();
 
         int id = Integer.parseInt(request.getParameter("id"));
 
         try {
-            r = rdao.consultaporId(id);
-            request.setAttribute("rol", r);
+            r = rd.consultaporId(id);
+            request.setAttribute("verrol", r);
             request.getRequestDispatcher("role-edit.jsp").forward(request, response);
             System.out.println("Rol encontrado");
 
         } catch (Exception e) {
             System.out.println("Rol NO encontrado " + e.getMessage());
         } finally {
-            rdao = null;
+            rd = null;
         }
     }
 
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
+    private void editRol(HttpServletRequest request, HttpServletResponse response) {
 
         if (request.getParameter("id") != null) {
+            r.setId(Integer.parseInt(request.getParameter("id")));
+                    
             r.setDescripcion(request.getParameter("descripcion"));
+         }
+        if (request.getParameter("chkEstado") != null) {
+            r.setEstado(true);
+        } else {
+            r.setEstado(false);
+        }
+        try {
+            rd.actualizarRol(r);
+            response.sendRedirect("RolesController?accion=listar");
 
-            try {
-                rd.actualizar(r);
-                response.sendRedirect("RolesController?accion=listar");
-
-            } catch (Exception e) {
-                System.out.println("Rol NO actualizado " + e.getMessage());
-            }
-
+        } catch (Exception e) {
+            System.out.println("Rol NO actualizado " + e.getMessage());
         }
 
     }
 
-    private void changeEstado(HttpServletRequest request, HttpServletResponse response) {
+private void changeEstado(HttpServletRequest request, HttpServletResponse response) {
         try {
             r.setId(Integer.parseInt(request.getParameter("id")));
             r.setEstado(Boolean.parseBoolean(request.getParameter("es")));
 
             rd.cambiarEstado(r);
-            response.sendRedirect("RolController?accion=listar");
+            response.sendRedirect("RolesController?accion=listar");
         } catch (Exception e) {
             System.out.println("Estado NO actualizado " + e.getMessage());
         }
     }
 
 }
-
-

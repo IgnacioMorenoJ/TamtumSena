@@ -6,8 +6,8 @@
   <form method="post" action="RolesController?accion=addRol">
   	
   	<div class="form-group">
-  		<label for="descripcion">Descripción</label>
-  		<input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Ingrese la descripción" value="${roler.id}"/>
+  		<label for="nombre">Descripción</label>
+  		<input type="text" class="form-control" name="nombre" id="descripcion" placeholder="Ingrese la descripción" value="${roler.id}"/>
   	</div>
   	
   	<div class="form-check">

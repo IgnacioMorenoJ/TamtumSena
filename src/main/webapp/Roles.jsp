@@ -35,7 +35,7 @@
         <c:if test="${rol.getEstado() == true}">
            <a rol="button" 
            class="btn btn-danger btn-sm" 
-           onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Rol')"> 
+           onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Roles')"> 
         
            
         Inactivar
@@ -44,7 +44,7 @@
         <c:if test="${rol.getEstado() == false}">
             <a rol="button" 
             class="btn btn-success btn-sm" 
-            onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Rol')">
+            onclick="cambiare(event,${rol.getId()},${rol.getEstado()},'Roles')">
         Activar
         </a>
         </c:if> 
@@ -54,7 +54,7 @@
         <td>
         <a rol="button" 
         class="btn btn-warning" 
-        href="RolController?accion=verRol&id=${rol.getId()}">
+        href="RolesController?accion=verRol&id=${rol.getId()}">
         <i class="bi bi-pencil"></i> 
         </a>
 
