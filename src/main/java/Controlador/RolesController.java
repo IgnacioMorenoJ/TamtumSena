@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "RolesController", urlPatterns = {"/RolesController"})
 public class RolesController extends HttpServlet {
-public RolesController (){super();}
+
+    public RolesController() {
+        super();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -27,8 +30,9 @@ public RolesController (){super();}
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    RolesDAO rd = new RolesDAO();
+
     Roles r = new Roles();
+    RolesDAO rd = new RolesDAO();
 
     /**
      * @see HttpServlet#HttpServlet() public UsuarioController() { super(); //
@@ -46,8 +50,9 @@ public RolesController (){super();}
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String accion = request.getParameter("accion");
         try {
             if (accion != null) {
@@ -92,19 +97,13 @@ public RolesController (){super();}
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        processRequest(request, response);
-
-    }
-
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) {
@@ -137,14 +136,15 @@ public RolesController (){super();}
 
     private void addRol(HttpServletRequest request, HttpServletResponse response) {
 
-        if (request.getParameter("nombre") != null) {
-            r.setDescripcion(request.getParameter("nombre"));
+        if (request.getParameter("descripcion") != null) {
+            r.setDescripcion(request.getParameter("descripcion"));
         }
         if (request.getParameter("chkEstado") != null) {
             r.setEstado(true);
         } else {
             r.setEstado(false);
         }
+        System.out.println(r.getDescripcion() + r.getEstado());
         try {
             rd.registrarRol(r);
             //request.getRequestDispatcher("views/Usuario.jsp").forward(request, response);
@@ -200,9 +200,9 @@ public RolesController (){super();}
 
         if (request.getParameter("id") != null) {
             r.setId(Integer.parseInt(request.getParameter("id")));
-                    
+
             r.setDescripcion(request.getParameter("descripcion"));
-         }
+        }
         if (request.getParameter("chkEstado") != null) {
             r.setEstado(true);
         } else {
@@ -218,7 +218,7 @@ public RolesController (){super();}
 
     }
 
-private void changeEstado(HttpServletRequest request, HttpServletResponse response) {
+    private void changeEstado(HttpServletRequest request, HttpServletResponse response) {
         try {
             r.setId(Integer.parseInt(request.getParameter("id")));
             r.setEstado(Boolean.parseBoolean(request.getParameter("es")));

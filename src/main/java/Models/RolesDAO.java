@@ -49,6 +49,7 @@ public class RolesDAO {
     }
 
     public int registrarRol (Roles rl) throws SQLException {
+        System.out.println("entro al modelo");
        sql="INSERT INTO roles (descripcion,estado) VALUES (?,?)";
         try {
                                        

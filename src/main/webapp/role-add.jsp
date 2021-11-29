@@ -7,7 +7,7 @@
   	
   	<div class="form-group">
   		<label for="nombre">Descripción</label>
-  		<input type="text" class="form-control" name="nombre" id="descripcion" placeholder="Ingrese la descripción" value="${roler.id}"/>
+  		<input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Ingrese la descripción" value="${roler.id}"/>
   	</div>
   	
   	<div class="form-check">

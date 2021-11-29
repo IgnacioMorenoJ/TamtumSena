@@ -73,7 +73,7 @@ public class UsuarioController extends HttpServlet {
                             u = ud.validarUsuario(u.getCorreo(), u.getClave());
                             if (u.getApellidos() != null && u.getEstado()== true) {
                                 System.out.println("El DAO encontró el usuario y está activo");
-                                session.setAttribute("us", u);
+                                session.setAttribute("user", u);
                                 response.sendRedirect("UsuarioController?accion=listar");
                             } else if (u.getApellidos() != null && u.getEstado() == false) {
                                 System.out.println("El DAO encontró el usuario y está inactivo");

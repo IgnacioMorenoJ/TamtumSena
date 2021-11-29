@@ -85,7 +85,7 @@ public class UsuarioDAO {
         return usu;
     }
 
-    public int registrar(Usuario us) throws SQLException {
+    public int registrar (Usuario us) throws SQLException {
         sql = "INSERT INTO usuarios (nombres,apellidos,documento,correo,fechaDeNacimiento,telefono,Clave,Estado,IdTipoDocumento,IdRol,IdEntidad,IdCiudad) VALUES (?,?,?,?,?,?,?,1,1,1,1,1)";
         try {
             con = c.conectar();//abrir conexión
@@ -209,8 +209,7 @@ public class UsuarioDAO {
     }
 
 public int changePassword(Usuario us) throws SQLException {
-	sql="UPDATE usuario SET passwordUsuario=? "+
-			"WHERE idUsuario="+us.getId();
+	sql="UPDATE usuario SET passwordUsuario=? WHERE idUsuario="+us.getId();
 	try {
 		
 		con=c.conectar();//abrir conexión
